@@ -3,6 +3,7 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,15 +12,45 @@ public class LOGIN {
     private JTextField usuario1;
     private JButton iniciarButton;
     public JPanel inicio;
+    private JComboBox comboBox1;
 
     public LOGIN() {
         iniciarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ex) {
+                String nombre= usuario1.getText();
+                String Items = comboBox1.getSelectedItem().toString();
+                String Password = password.getText();
 
                 try {
                     MongoDatabase database = ConexionMongoDB.getDatabase(); // Obtener la base de datos
                     MongoCollection<Document> collection = database.getCollection("usuarios");
+
+                    Document busqueda = new Document("usuario", nombre)
+                                            .append("contraseña",Password)
+                                              .append("ingreso", Items);
+                    Document encontrado = collection.find(busqueda).first();
+
+
+                    if (encontrado != null ) {
+                        JFrame frame = new JFrame("Login | Radio Button Use");
+                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        frame.setSize(600, 600);
+                        frame.setPreferredSize(new Dimension(600, 600));
+                        frame.setContentPane(new Administrador().administrador);
+                        frame.pack();
+                        frame.setLocationRelativeTo(null);
+                        frame.setVisible(true);
+
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Verifica uno de los campos");
+
+
+
+
+                    }
+                    /*
 
                     // Crear el nuevo documento
                     Document nuevo = new Document("usuario", usuario1.getText());
@@ -29,6 +60,8 @@ public class LOGIN {
 
                     JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.");
                     // ... (limpiar los campos del formulario, etc.)
+                    */
+
 
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Error al registrar el usuario.");
