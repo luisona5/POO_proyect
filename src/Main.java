@@ -7,7 +7,7 @@ public class Main {
         JFrame frame = new JFrame("Login | Radio Button Use");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
-        frame.setPreferredSize(new Dimension(600, 600));
+        frame.setPreferredSize(new Dimension(600, 400));
         frame.setContentPane(new LOGIN().inicio);
         frame.pack();
         frame.setLocationRelativeTo(null);
