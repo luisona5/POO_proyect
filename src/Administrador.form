@@ -82,8 +82,7 @@
           <font size="12"/>
           <model>
             <item value="-Seleccionar-"/>
-            <item value="Salon de Belleza"/>
-            <item value="Spa"/>
+            <item value="Usuario"/>
           </model>
         </properties>
       </component>
