@@ -13,6 +13,7 @@ public class LOGIN {
     private JButton iniciarButton;
     public JPanel inicio;
     private JComboBox comboBox1;
+    private JTextField cedula;
 
     public LOGIN() {
         iniciarButton.addActionListener(new ActionListener() {
@@ -20,16 +21,18 @@ public class LOGIN {
             public void actionPerformed(ActionEvent ex) {
                 String nombre= usuario1.getText();
                 String Items = comboBox1.getSelectedItem().toString();
-                String Password = password.getText();
+                String DNI= cedula.getText();
 
                 try {
                     MongoDatabase database = ConexionMongoDB.getDatabase(); // Obtener la base de datos
                     MongoCollection<Document> collection = database.getCollection("usuarios");
 
                     Document busqueda = new Document("usuario", nombre)
-                                            .append("contraseña",Password)
+                                            .append("cedula",DNI)
                                               .append("ingreso", Items);
                     Document encontrado = collection.find(busqueda).first();
+
+
 
 
                     if (encontrado != null  && Items.equals("Administrador")) {
