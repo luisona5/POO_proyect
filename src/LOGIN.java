@@ -32,8 +32,8 @@ public class LOGIN {
                     Document encontrado = collection.find(busqueda).first();
 
 
-                    if (encontrado != null ) {
-                        JFrame frame = new JFrame("Login | Radio Button Use");
+                    if (encontrado != null  && Items.equals("Administrador")) {
+                        JFrame frame = new JFrame("ADMINISTRADOR");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         frame.setSize(600, 600);
                         frame.setPreferredSize(new Dimension(600, 600));
@@ -44,7 +44,7 @@ public class LOGIN {
 
                     }
                     else {
-                        JOptionPane.showMessageDialog(null, "Verifica uno de los campos");
+                        JOptionPane.showMessageDialog(null, "Verifica que todos los campos esten correctos");
 
 
 
