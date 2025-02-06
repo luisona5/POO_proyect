@@ -36,35 +36,35 @@ public class LOGIN {
                         JFrame frame = new JFrame("ADMINISTRADOR");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         frame.setSize(600, 600);
-                        frame.setPreferredSize(new Dimension(600, 600));
+                        frame.setPreferredSize(new Dimension(600, 400));
                         frame.setContentPane(new Administrador().administrador);
                         frame.pack();
                         frame.setLocationRelativeTo(null);
                         frame.setVisible(true);
 
                     }
-                    else {
+                    else if (encontrado != null && Items.equals("Usuario")) {
+
+                        JFrame frame = new JFrame("consultas de reservas");
+                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        frame.setSize(600, 600);
+                        frame.setPreferredSize(new Dimension(600, 400));
+                        frame.setContentPane(new Usuario().Vusuarios);
+                        frame.pack();
+                        frame.setLocationRelativeTo(null);
+                        frame.setVisible(true);
+
+
+                    } else{
+
                         JOptionPane.showMessageDialog(null, "Verifica que todos los campos esten correctos");
 
-
-
-
                     }
-                    /*
 
-                    // Crear el nuevo documento
-                    Document nuevo = new Document("usuario", usuario1.getText());
-
-                    // Insertar el documento en la colección
-                    collection.insertOne(nuevo);
-
-                    JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.");
-                    // ... (limpiar los campos del formulario, etc.)
-                    */
 
 
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Error al registrar el usuario.");
+                    JOptionPane.showMessageDialog(null, e);
                 }
 
 
