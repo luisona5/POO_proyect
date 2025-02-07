@@ -1,6 +1,7 @@
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -152,7 +153,32 @@ public class Administrador {
             }
         });
 
-    ;}
+    ;
+        eliminarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    MongoDatabase database = ConexionMongoDB.getDatabase(); // Obtener la base de datos
+                    MongoCollection<Document> collection = database.getCollection("usuarios");
+
+
+                    int filaSeleccionada = table1.getSelectedRow();
+                    if (filaSeleccionada == -1) {
+                        JOptionPane.showMessageDialog(null, " no ha seleccionado persona para la eliminacion\nporfsvot elija uno");
+                        return;
+                    }
+                    String id = table1.getValueAt(filaSeleccionada, 0).toString();
+                    collection.deleteOne(Filters.eq("_id", new ObjectId(id)));
+
+                    JOptionPane.showMessageDialog(null, "Usuario eliminado con exito");
+
+                }catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error al eliminar usuario: " + ex.getMessage());
+                }
+
+            }
+        });
+    }
 }
 
 
