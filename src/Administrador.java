@@ -104,7 +104,7 @@ public class Administrador {
 
                 int filaSeleccionada = table1.getSelectedRow();
                 if (filaSeleccionada == -1) {
-                    JOptionPane.showMessageDialog(null, "Selecciona un socio para modificar");
+                    JOptionPane.showMessageDialog(null, "Seleccione un usuario para editar la informacion");
                     return;
                 }
                 String id = table1.getValueAt(filaSeleccionada, 0).toString();
@@ -116,12 +116,16 @@ public class Administrador {
                 String nuevoingreso = comboBox1.getSelectedItem().toString();
 
                 Document busqueda = new Document("_id", new ObjectId(id));
-                Document actualizado = new Document("$set", new Document(("usuario" , nuevonombre)
+                Document actualizado = new Document("$set", new Document(("usuario", nuevonombre)
                         .append("cedula", nuevocedula)
                         .append("ingreso", nuevoingreso)
                         .append("correo", nuevocorreo)
                         .append("direccion", nuevodireccion)
                         .append("telefono", nuevotelefono));
+
+                collection.updateOne(busqueda, actualizado);
+                JOptionPane.showMessageDialog(null, "informacion actualizada correctamente");
+
             }
         });
 
