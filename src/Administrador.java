@@ -101,13 +101,27 @@ public class Administrador {
                 MongoDatabase database = ConexionMongoDB.getDatabase(); // Obtener la base de datos
                 MongoCollection<Document> collection = database.getCollection("usuarios");
 
+
                 int filaSeleccionada = table1.getSelectedRow();
                 if (filaSeleccionada == -1) {
                     JOptionPane.showMessageDialog(null, "Selecciona un socio para modificar");
                     return;
                 }
+                String id = table1.getValueAt(filaSeleccionada, 0).toString();
+                String nuevocedula = textField2.getText();
+                String nuevonombre = textField1.getText();
+                String nuevotelefono = textField3.getText();
+                String nuevocorreo = textField6.getText();
+                String nuevodireccion = textField4.getText();
+                String nuevoingreso = comboBox1.getSelectedItem().toString();
 
-
+                Document busqueda = new Document("_id", new ObjectId(id));
+                Document actualizado = new Document("$set", new Document(("usuario" , nuevonombre)
+                        .append("cedula", nuevocedula)
+                        .append("ingreso", nuevoingreso)
+                        .append("correo", nuevocorreo)
+                        .append("direccion", nuevodireccion)
+                        .append("telefono", nuevotelefono));
             }
         });
 
