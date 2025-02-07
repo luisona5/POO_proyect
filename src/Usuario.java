@@ -19,7 +19,7 @@ public class Usuario {
             public void actionPerformed(ActionEvent e) {
                 try {
                     MongoDatabase database = ConexionMongoDB.getDatabase(); // Obtener la base de datos
-                    MongoCollection<Document> collection = database.getCollection("Administrador");
+                    MongoCollection<Document> collection = database.getCollection("usuarios");
 
 
                 } catch (Exception ex) {

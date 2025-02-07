@@ -24,8 +24,20 @@ public class LOGIN {
                 String DNI= cedula.getText();
 
                 try {
+
                     MongoDatabase database = ConexionMongoDB.getDatabase(); // Obtener la base de datos
                     MongoCollection<Document> collection = database.getCollection("usuarios");
+
+                    // ingresando usuario por defecto
+
+                        /*
+                    Document administrador= new Document("usuario", "luis")
+                                                 .append("cedula","123")
+                                                 .append("ingreso", "Administrador");
+                    collection.insertOne(administrador);
+
+                    */
+                    //  BUSCAR A LA PERSONA PARA PODER INGRESAR
 
                     Document busqueda = new Document("usuario", nombre)
                                             .append("cedula",DNI)
