@@ -40,7 +40,7 @@ public class Contenido {
                     FindIterable<Document> viztaso = collection.find();
                     for (Document doc : viztaso) {
                         tablacontenido.addRow(new Object[] {
-                                doc.getString("_id"),
+                                doc.getString("_id").toString(),
                                 doc.getString("seleccion"),
                                 doc.getString("descripcion"),
                         });
