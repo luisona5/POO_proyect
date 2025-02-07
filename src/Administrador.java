@@ -208,10 +208,10 @@ public class Administrador {
         siguienteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = new JFrame("ingreso");
+                JFrame frame = new JFrame("cantidad");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setSize(600, 600);
-                frame.setPreferredSize(new Dimension(600, 400));
+                frame.setPreferredSize(new Dimension(600, 600));
                 frame.setContentPane(new Contenido().contenido);
                 frame.pack();
                 frame.setLocationRelativeTo(null);
