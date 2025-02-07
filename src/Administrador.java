@@ -21,6 +21,7 @@ public class Administrador {
     private JButton editarButton;
     private JButton eliminarButton;
     private JButton guardarButton;
+    private JTable table1;
 
     public Administrador() {
 
