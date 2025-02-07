@@ -143,6 +143,7 @@ public class Administrador {
                             doc.getString("direccion"),
                             doc.getString("tipo")
                     });
+                    JOptionPane.showMessageDialog(null, "Usuario actualizado con exito");
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
