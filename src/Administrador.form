@@ -62,7 +62,7 @@
         </constraints>
         <properties>
           <font name="Courier New" style="1"/>
-          <text value="seleccionar antes de seguir empezando"/>
+          <text value="la seleccion de este campo es obligatoria"/>
         </properties>
       </component>
       <component id="d1278" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">

@@ -1,12 +1,17 @@
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 
+import static java.util.Collection.*;
 
 
 public class Administrador {
@@ -22,34 +27,60 @@ public class Administrador {
     private JButton eliminarButton;
     private JButton guardarButton;
     private JTable table1;
+    private DefaultTableModel tabla;
+
 
     public Administrador() {
+
+
 
         guardarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String DNI = textField2.getText();
+                String cedula = textField2.getText();
                 String nombre = textField1.getText();
                 String telefono = textField3.getText();
                 String correo = textField6.getText();
                 String direccion = textField4.getText();
-                String Usuarioregistro = comboBox1.getSelectedItem().toString();
+                String ingreso = comboBox1.getSelectedItem().toString();
 
                 try {
                     MongoDatabase database = ConexionMongoDB.getDatabase(); // Obtener la base de datos
                     MongoCollection<Document> collection = database.getCollection("usuarios");
 
                     Document nuevo = new Document("usuario", nombre)
-                            .append("cedula", DNI)
-                            .append("ingreso", Usuarioregistro)
+                            .append("cedula", cedula)
+                            .append("ingreso", ingreso)
                             .append("correo", correo)
                             .append("direccion", direccion)
                             .append("telefono", telefono);
                     collection.insertOne(nuevo);
 
+                    tabla = new DefaultTableModel(new String[]{"ID","cedula", "usuario", "telefono", "correo", "direccion","ingreso"}, 0);
+                    table1.setModel(tabla);
+                    tabla.setRowCount(0);
+                    FindIterable<Document> vistazo = collection.find();
+                    for (Document doc : vistazo) {
+                        // Crea un array de objetos con los datos del documento
+                        Object[] rowData = {
+                                doc.getObjectId("_id"),
+                                doc.getString("cedula"),
+                                doc.getString("usuario"),
+                                doc.getString("telefono"),
+                                doc.getString("correo"),
+                                doc.getString("direccion"),
+                                doc.getString("ingreso")
+                        };
+                        tabla.addRow(rowData);
+                    }
+
+
                     // validando los campos
-                    if (nombre.isEmpty() || DNI.isEmpty() || telefono.isEmpty() || correo.isEmpty() || direccion.isEmpty() || Usuarioregistro.equals("-Seleccionar-")) {
-                        JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios.");
+                    if (ingreso.equals("-Seleccionar-") || cedula.isEmpty() || nombre.isEmpty()
+                        || telefono.isEmpty() || correo.isEmpty() || direccion.isEmpty()){
+
+
+                        JOptionPane.showMessageDialog(null, "Todos los campos deben seer llenados.");
                         return;
                     }else{
                         JOptionPane.showMessageDialog(null, "usuario registrado con exito");
@@ -60,10 +91,20 @@ public class Administrador {
                     throw new RuntimeException(ex);
 
                 }
+            }
+        });
+
+
+        editarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
 
             }
         });
-    }
+
+    ;}
 }
+
+
 
