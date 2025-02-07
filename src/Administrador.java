@@ -169,6 +169,22 @@ public class Administrador {
                     }
                     String id = table1.getValueAt(filaSeleccionada, 0).toString();
                     collection.deleteOne(Filters.eq("_id", new ObjectId(id)));
+                    // Actualizando la tabla
+                    DefaultTableModel tabla = (DefaultTableModel) table1.getModel();
+                    tabla.setRowCount(0); // Limpiar la tabla
+
+                    FindIterable<Document> vistazo = collection.find();
+                    for (Document doc : vistazo) {
+                        tabla.addRow(new Object[]{
+                                doc.getObjectId("_id").toString(),
+                                doc.getString("cedula"),
+                                doc.getString("usuario"),
+                                doc.getString("telefono"),
+                                doc.getString("correo"),
+                                doc.getString("direccion"),
+                                doc.getString("tipo")
+                        });
+                    }
 
                     JOptionPane.showMessageDialog(null, "Usuario eliminado con exito");
 
