@@ -98,6 +98,14 @@ public class Administrador {
         editarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                MongoDatabase database = ConexionMongoDB.getDatabase(); // Obtener la base de datos
+                MongoCollection<Document> collection = database.getCollection("usuarios");
+
+                int filaSeleccionada = table1.getSelectedRow();
+                if (filaSeleccionada == -1) {
+                    JOptionPane.showMessageDialog(null, "Selecciona un socio para modificar");
+                    return;
+                }
 
 
             }
