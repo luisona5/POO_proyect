@@ -46,10 +46,14 @@ public class Administrador {
                             .append("telefono", telefono);
                     collection.insertOne(nuevo);
 
-                    if(nuevo != null && Usuarioregistro.equals("Usuario")) {
-                        JOptionPane.showMessageDialog(null, "Usuario guardado correctamente");
-                    }
+                    // validando los campos
+                    if (nombre.isEmpty() || DNI.isEmpty() || telefono.isEmpty() || correo.isEmpty() || direccion.isEmpty() || Usuarioregistro.equals("-Seleccionar-")) {
+                        JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios.");
+                        return;
+                    }else{
+                        JOptionPane.showMessageDialog(null, "usuario registrado con exito");
 
+                    }
 
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
