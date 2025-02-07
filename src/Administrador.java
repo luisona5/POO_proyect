@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.Collection;
 
 import static java.util.Collection.*;
+import static org.apache.commons.logging.LogFactory.objectId;
 
 
 public class Administrador {
@@ -99,59 +100,67 @@ public class Administrador {
         editarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    MongoDatabase database = ConexionMongoDB.getDatabase();
+                    MongoCollection<Document> collection = database.getCollection("usuarios");
 
-                try{
-                MongoDatabase database = ConexionMongoDB.getDatabase(); // Obtener la base de datos
-                MongoCollection<Document> collection = database.getCollection("usuarios");
+                    int filaSeleccionada = table1.getSelectedRow();
+                    if (filaSeleccionada == -1) {
+                        JOptionPane.showMessageDialog(null, "Seleccione un usuario para editar la información");
+                        return;
+                    }
 
 
-                int filaSeleccionada = table1.getSelectedRow();
-                if (filaSeleccionada == -1) {
-                    JOptionPane.showMessageDialog(null, "Seleccione un usuario para editar la informacion");
-                    return;
+                    String id = table1.getValueAt(filaSeleccionada, 0).toString();
+                    String nuevocedula = textField2.getText();
+                    String nuevonombre = textField1.getText();
+                    String nuevotelefono = textField3.getText();
+                    String nuevocorreo = textField6.getText();
+                    String nuevodireccion = textField4.getText();
+                    String nuevoingreso = comboBox1.getSelectedItem().toString();
+
+
+
+                    Document busqueda = new Document(ObjectId(id));
+
+                    Document actualizado = new Document("$set", new Document("cedula", nuevocedula)
+                            .append("nombre", nuevonombre)
+                            .append("telefono", nuevotelefono)
+                            .append("correo", nuevocorreo)
+                            .append("direccion", nuevodireccion)
+                            .append("ingreso", nuevoingreso));
+
+                    collection.updateOne(busqueda, actualizado);
+
+                    JOptionPane.showMessageDialog(null, "Usuario actualizado correctamente");
+
+                    // Consulta todos los usuarios
+                    FindIterable<Document> usuarios = collection.find();
+
+                    DefaultTableModel modelo = (DefaultTableModel) table1.getModel();
+
+                    // Itera sobre los resultados y agrega cada usuario a la tabla
+                    for (Document usuario : usuarios) {
+                        Object[] fila = {
+                                usuario.get("_id").toString(),
+                                usuario.get("cedula"),
+                                usuario.get("nombre"),
+                                usuario.get("telefono"),
+                                usuario.get("correo"),
+                                usuario.get("direccion"),
+                                usuario.get("ingreso")
+                        };
+                        modelo.addRow(fila);
+                    }
+
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error al actualizar usuario: " + ex.getMessage());
+                    ex.printStackTrace();
                 }
-                String id = table1.getValueAt(filaSeleccionada, 0).toString();
-                String nuevocedula = textField2.getText();
-                String nuevonombre = textField1.getText();
-                String nuevotelefono = textField3.getText();
-                String nuevocorreo = textField6.getText();
-                String nuevodireccion = textField4.getText();
-                String nuevoingreso = comboBox1.getSelectedItem().toString();
-
-                Document buscando = new Document("_id", new ObjectId(id));
-                Document actualizado = new Document("$set", new Document("usuario", nuevonombre)
-                        .append("cedula", nuevocedula)
-                        .append("ingreso", nuevoingreso)
-                        .append("correo", nuevocorreo)
-                        .append("direccion", nuevodireccion)
-                        .append("telefono", nuevotelefono));
-
-                collection.updateOne(buscando, actualizado);
-
-                // Actualizando la tabla
-                DefaultTableModel tabla = (DefaultTableModel) table1.getModel();
-                tabla.setRowCount(0); // Limpiar la tabla
-
-                FindIterable<Document> vistazo = collection.find();
-                for (Document doc : vistazo) {
-                    tabla.addRow(new Object[]{
-                            doc.getObjectId("_id").toString(),
-                            doc.getString("cedula"),
-                            doc.getString("usuario"),
-                            doc.getString("telefono"),
-                            doc.getString("correo"),
-                            doc.getString("direccion"),
-                            doc.getString("tipo")
-                    });
-                    JOptionPane.showMessageDialog(null, "Usuario actualizado con exito");
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Error al modificar usuario: " + ex.getMessage());
             }
 
 
-            }
         });
 
     ;
