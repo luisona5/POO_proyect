@@ -98,6 +98,8 @@ public class Administrador {
         editarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                try{
                 MongoDatabase database = ConexionMongoDB.getDatabase(); // Obtener la base de datos
                 MongoCollection<Document> collection = database.getCollection("usuarios");
 
@@ -115,16 +117,37 @@ public class Administrador {
                 String nuevodireccion = textField4.getText();
                 String nuevoingreso = comboBox1.getSelectedItem().toString();
 
-                Document busqueda = new Document("_id", new ObjectId(id));
-                Document actualizado = new Document("$set", new Document(("usuario", nuevonombre)
+                Document buscando = new Document("_id", new ObjectId(id));
+                Document actualizado = new Document("$set", new Document("usuario", nuevonombre)
                         .append("cedula", nuevocedula)
                         .append("ingreso", nuevoingreso)
                         .append("correo", nuevocorreo)
                         .append("direccion", nuevodireccion)
                         .append("telefono", nuevotelefono));
 
-                collection.updateOne(busqueda, actualizado);
-                JOptionPane.showMessageDialog(null, "informacion actualizada correctamente");
+                collection.updateOne(buscando, actualizado);
+
+                // Actualizando la tabla
+                DefaultTableModel tabla = (DefaultTableModel) table1.getModel();
+                tabla.setRowCount(0); // Limpiar la tabla
+
+                FindIterable<Document> vistazo = collection.find();
+                for (Document doc : vistazo) {
+                    tabla.addRow(new Object[]{
+                            doc.getObjectId("_id").toString(),
+                            doc.getString("cedula"),
+                            doc.getString("usuario"),
+                            doc.getString("telefono"),
+                            doc.getString("correo"),
+                            doc.getString("direccion"),
+                            doc.getString("tipo")
+                    });
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error al modificar usuario: " + ex.getMessage());
+            }
+
 
             }
         });
