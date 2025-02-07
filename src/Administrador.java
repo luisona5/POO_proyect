@@ -121,7 +121,7 @@ public class Administrador {
 
 
 
-                    Document busqueda = new Document(ObjectId(id));
+                    Document busqueda = new Document();
 
                     Document actualizado = new Document("$set", new Document("cedula", nuevocedula)
                             .append("nombre", nuevonombre)

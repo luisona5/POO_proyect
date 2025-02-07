@@ -1,8 +1,11 @@
 import javax.swing.*;
 
 public class Contenido {
-    private JPanel panel1;
+    public JPanel contenido;
     private JButton guardarButton;
     private JButton actualizarButton;
     private JButton eliminarButton;
+    private JComboBox comboBox1;
+    private JTextField descripcion;
+    private JTable table1;
 }
